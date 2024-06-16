@@ -16,14 +16,8 @@
 
 ## Author
 
-My name is Lun Dev from VietNam
+My name is Leather-face
 
-
-## Contact with Author
-- [hohoang.dev@gmail.com]()
-- [Youtube Lun Dev](https://www.youtube.com/@lundeveloper) - youtube page sharing a lot of knowledge about web Develop.
-- [instagram Lun Dev](https://www.instagram.com/lun.dev.m55/).
-- [Facebook Lun Dev](https://www.facebook.com/lundevweb/).
 
 
 
