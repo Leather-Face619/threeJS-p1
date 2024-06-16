@@ -124,7 +124,7 @@ button#showmore{
 
 @media screen and (max-width: 768px) {
     #dCanvas {
-        height: 40vh;
+        height: 45vh;
     }
     .contentOne, .contentTwo{
         position: relative;
@@ -149,7 +149,18 @@ button#showmore{
         box-sizing: border-box;
         gap: 20px;
     }
-    .slider #showmore{
+    /* .slider #showmore{
         display: none;
+    } */
+    button#showmore{
+        /* position: absolute; */
+        bottom:0%;
+        left: 50%;
+        transform: translate(-50%,0%);
+        background-color: transparent;
+        border: 1px solid rgb(255, 255, 255);
+        padding: 10px 20px;
+        border-radius: 20px;
+        color: rgba(238, 238, 238, 0.774);
     }
 }

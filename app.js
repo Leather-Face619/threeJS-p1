@@ -1,4 +1,4 @@
-//Import the THREE.js library
+// Import the THREE.js library
 import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
 // To allow for the camera to move around the scene
 import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
@@ -9,7 +9,7 @@ import TWEEN from "https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tw
 
 let canvasform = document.getElementById('dCanvas');
 let width = canvasform.offsetWidth;
-let height =  canvasform.offsetHeight;
+let height = canvasform.offsetHeight;
 //Create a Three.JS Scene
 const scene = new THREE.Scene();
 //create a new camera with positions and angles
@@ -37,7 +37,7 @@ loader.load(
 
 //Instantiate a new renderer and set its size
 const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(width, height); 
+renderer.setSize(width, height);
 
 //Add the renderer to the DOM
 document.getElementById("dCanvas").appendChild(renderer.domElement);
@@ -45,29 +45,30 @@ document.getElementById("dCanvas").appendChild(renderer.domElement);
 camera.position.set(180, 50, 200);
 
 //Add lights to the scene, so we can actually see the 3D model
-let ambientLight = new THREE.AmbientLight(0x404040,1);
+let ambientLight = new THREE.AmbientLight(0x404040, 1);
 scene.add(ambientLight);
-let directionalLight = new THREE.DirectionalLight(0xffffff,1);
-directionalLight.position.set(0,1,0);
+let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(0, 1, 0);
 directionalLight.castShadow = true;
 // scene.add(directionalLight);
-let light = new THREE.PointLight(0xc4c4c4,10);
-light.position.set(0,300,500);
+let light = new THREE.PointLight(0xc4c4c4, 10);
+light.position.set(0, 300, 500);
 // scene.add(light);
-let light2 = new THREE.PointLight(0xc4c4c4,10);
-light2.position.set(500,100,0);
+let light2 = new THREE.PointLight(0xc4c4c4, 10);
+light2.position.set(500, 100, 0);
 scene.add(light2);
-let light3 = new THREE.PointLight(0xc4c4c4,5);
-light3.position.set(0,100,-500);
+let light3 = new THREE.PointLight(0xc4c4c4, 5);
+light3.position.set(0, 100, -500);
 scene.add(light3);
-let light4 = new THREE.PointLight(0xc4c4c4,10);
-light4.position.set(-500,300,500);
+let light4 = new THREE.PointLight(0xc4c4c4, 10);
+light4.position.set(-500, 300, 500);
 scene.add(light4);
 
 //This adds controls to the camera, so we can rotate / zoom it with the mouse
 controls = new OrbitControls(camera, renderer.domElement);
 
-//Render the scene
+
+// Render the scene
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
@@ -78,7 +79,7 @@ animate();
 //Add a listener to the window, so we can resize the window and the camera
 window.addEventListener("resize", function () {
   width = canvasform.offsetWidth;
-  height =  canvasform.offsetHeight;
+  height = canvasform.offsetHeight;
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
   renderer.setSize(width, height);
@@ -87,43 +88,61 @@ window.addEventListener("resize", function () {
 let btnshowmore = document.getElementById('showmore');
 let slider = document.querySelector('.slider');
 
-function runCamera(x,y,z) {
+function runCamera(x, y, z) {
   // create position camera
-    const targetPosition = new THREE.Vector3(x, y, z); 
-    // time animation
-    const duration = 1200;
+  const targetPosition = new THREE.Vector3(x, y, z);
+  // time animation
+  const duration = 1200;
 
-    const tween = new TWEEN.Tween(camera.position)
-        .to(targetPosition, duration)
-        .easing(TWEEN.Easing.Quadratic.InOut) 
-        .onUpdate(() => {
-            camera.lookAt(scene.position); 
-            renderer.render(scene, camera);
-        })
-        .start();
-
+  const tween = new TWEEN.Tween(camera.position)
+    .to(targetPosition, duration)
+    .easing(TWEEN.Easing.Quadratic.InOut)
+    .onUpdate(() => {
+      camera.lookAt(scene.position);
+      renderer.render(scene, camera);
+    })
+    .start();
 }
+
+function rotateModel(rotationY) {
+  if (!object) return; // Ensure object is loaded
+
+  const targetRotation = { y: rotationY };
+  const duration = 1200;
+
+  const tween = new TWEEN.Tween(object.rotation)
+    .to(targetRotation, duration)
+    .easing(TWEEN.Easing.Quadratic.InOut)
+    .onUpdate(() => {
+      renderer.render(scene, camera);
+    })
+    .start();
+}
+
 let statusContent = 'contentOne';
 btnshowmore.onclick = () => {
-    slider.classList.remove('contentOneAction');
-    slider.classList.remove('contentTwoAction');
-    switch (statusContent) {
-        case 'contentOne':
-            runCamera(200, 150,100);
-            statusContent = 'contentTwo';
-            slider.classList.add('contentTwoAction');
-            break;
-        case 'contentTwo':
-            runCamera(10, 70, -280);
-            statusContent = 'fullScreen';
-            break;
-        case 'fullScreen':
-            runCamera(80, 150, 300);
-            slider.classList.add('contentOneAction');
-            statusContent = 'contentOne';
-            break;
-    
-        default:
-            break;
-    }
-}
+  slider.classList.remove('contentOneAction');
+  slider.classList.remove('contentTwoAction');
+  switch (statusContent) {
+    case 'contentOne':
+      runCamera(200, 150, 100);
+     // rotateModel(THREE.Math.degToRad(45)); // Rotate model 45 degrees around Y-axis
+      statusContent = 'contentTwo';
+      slider.classList.add('contentTwoAction');
+      break;
+    case 'contentTwo':
+      runCamera(10, 70, -280);
+     // rotateModel(THREE.Math.degToRad(0)); // Reset model rotation
+      statusContent = 'fullScreen';
+      break;
+    case 'fullScreen':
+      runCamera(80, 150, 180);
+     // rotateModel(THREE.Math.degToRad(-45)); // Rotate model -45 degrees around Y-axis
+      slider.classList.add('contentOneAction');
+      statusContent = 'contentOne';
+      break;
+
+    default:
+      break;
+  }
+};
